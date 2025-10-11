@@ -89,7 +89,7 @@ public:
   };
 
   template <class U>
-  struct ConstTraits
+  struct UnConst
   {
     typedef U Result;
     enum
@@ -99,7 +99,7 @@ public:
   };
 
   template <class U>
-  struct ConstTraits<const U>
+  struct UnConst<const U>
   {
     typedef U Result;
     enum
@@ -125,12 +125,13 @@ public:
 
   enum
   {
-    isConst = ConstTraits<T>::isConst
+    isConst = UnConst<T>::isConst
   };
 
 public:
   using PointeeType = typename PointerTraits<T>::PointeeType;
   using ReferredType = typename ReferenceTraits<T>::ReferredType;
+  using NonConstType = typename UnConst<T>::Result;
 };
 
 class Widget

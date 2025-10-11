@@ -182,7 +182,7 @@ int main()
   std::cout << "isReference: " + to_string(TypeTraits<const int>::isReference) + "\n";
   std::cout << "isMemberPointer: " + to_string(TypeTraits<const int>::isMemberPointer) + "\n";
   std::cout << "isConst: " + to_string(TypeTraits<const int>::isConst) + "\n";
-  std::cout << "Result is int: " << is_same<TypeTraits<const int>::ConstTraits<const int>::Result, int>::value << "\n";
+  std::cout << "Result is int: " << is_same<TypeTraits<const int>::NonConstType, int>::value << "\n";
   std::cout << "\n";
   std::cout << "const int *: \n";
   std::cout << "isPointer: " + to_string(TypeTraits<const int *>::isPointer) + "\n";

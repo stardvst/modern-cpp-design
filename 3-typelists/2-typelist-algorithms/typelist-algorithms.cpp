@@ -2,7 +2,6 @@
 #include "erase-all.h"
 #include "erase-duplicates.h"
 #include "erase.h"
-#include "indexed-access.h"
 #include "replace.h"
 #include "search.h"
 #include "size.h"

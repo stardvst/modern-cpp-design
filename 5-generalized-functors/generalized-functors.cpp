@@ -21,14 +21,16 @@ public:
 	}
 };
 
-class MyFunctorImplThreeParams
+double testFunctionWithThreeParams(int a, float b, double c)
 {
-public:
-	double operator()(int a, float b, double c)
-	{
-		return a + b + c;
-	}
-};
+	return a + b + c;
+}
+
+// ambiguous call if not using a cast or a wrapper
+double testFunctionWithThreeParams(int a, float b, long l)
+{
+	return a * b * l;
+}
 
 int main()
 {
@@ -42,9 +44,17 @@ int main()
 	result = myFunctorTwoParams(42, 3.14f);
 	std::cout << result << "\n";
 
-	MyFunctorImplThreeParams implThreeParams;
-	Functor<double, TYPELIST_3(int, float, double)> myFunctorThreeParams(implThreeParams);
+	// handling overloaded function pointers
+
+	using FunType = double (*)(int, float, double);
+	FunType funcPtr = &testFunctionWithThreeParams;
+	Functor<double, TYPELIST_3(int, float, double)> myFunctorThreeParams(funcPtr);
 	result = myFunctorThreeParams(42, 3.14f, 2.71);
+	std::cout << result << "\n";
+
+	using FunType2 = double (*)(int, float, long);
+	Functor<double, TYPELIST_3(int, float, long)> myFunctorThreeParams2(static_cast<FunType2>(testFunctionWithThreeParams));
+	result = myFunctorThreeParams2(42, 3.14f, 2);
 	std::cout << result << "\n";
 
 	return 0;

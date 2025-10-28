@@ -38,6 +38,20 @@ const char *testFunctionParamConversion(double, double)
 	return buffer;
 }
 
+class Parrot
+{
+public:
+	void speak() const
+	{
+		std::cout << "Squawk!\n";
+	}
+
+	void eat()
+	{
+		std::cout << "Nom nom nom\n";
+	}
+};
+
 int main()
 {
 	MyFunctorImplOneParam implOneParam;
@@ -68,6 +82,15 @@ int main()
 	Functor<std::string, TYPELIST_2(int, int)> myFunctorParamConversion(&testFunctionParamConversion);
 	std::string strResult = myFunctorParamConversion(42, 3);
 	std::cout << strResult << "\n";
+
+	// handling member function pointers
+
+	Parrot parrot;
+	Functor<void> speakFunctor(&parrot, &Parrot::speak);
+	speakFunctor();
+	Functor<void> eatFunctor(&parrot, &Parrot::eat);
+	eatFunctor();
+	std::cout << "\n";
 
 	return 0;
 }

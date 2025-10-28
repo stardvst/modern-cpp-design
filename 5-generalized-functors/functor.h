@@ -2,11 +2,12 @@
 
 #include "functor-handler.h"
 #include "functor-impl.h"
+#include "member-function-handler.h"
 #include "typeat-nonstrict.h"
 
 #include <memory>
 
-template <typename R, typename TList>
+template <typename R, typename TList = NullType>
 class Functor
 {
 public:
@@ -25,6 +26,11 @@ public:
 	using Param3 = typename TypeAtNonStrict<TList, 2>::Result;
 
 	explicit Functor(std::unique_ptr<FunctorImpl<ResultType, TList>> impl) : m_impl(std::move(impl))
+	{
+	}
+
+	template <typename PtrObj, typename PtrMemFn>
+	explicit Functor(const PtrObj &obj, PtrMemFn memFn) : m_impl(std::make_unique<MemFunHandler<Functor, PtrObj, PtrMemFn>>(obj, memFn))
 	{
 	}
 

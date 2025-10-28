@@ -32,6 +32,12 @@ double testFunctionWithThreeParams(int a, float b, long l)
 	return a * b * l;
 }
 
+const char *testFunctionParamConversion(double, double)
+{
+	static const char buffer[] = "testFunctionParamConversion called";
+	return buffer;
+}
+
 int main()
 {
 	MyFunctorImplOneParam implOneParam;
@@ -56,6 +62,12 @@ int main()
 	Functor<double, TYPELIST_3(int, float, long)> myFunctorThreeParams2(static_cast<FunType2>(testFunctionWithThreeParams));
 	result = myFunctorThreeParams2(42, 3.14f, 2);
 	std::cout << result << "\n";
+
+	// handling implicit parameter conversions
+
+	Functor<std::string, TYPELIST_2(int, int)> myFunctorParamConversion(&testFunctionParamConversion);
+	std::string strResult = myFunctorParamConversion(42, 3);
+	std::cout << strResult << "\n";
 
 	return 0;
 }

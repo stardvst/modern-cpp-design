@@ -82,7 +82,7 @@ int main()
 
 	// #############  SmallObject test  #############
 	std::cout << Color::blue << "\nSmallObject test:\n" << Color::reset;
-	struct SmallDerived : public SmallObject
+	struct SmallDerived : public SmallObject<SingleThreaded>
 	{
 		int x;
 		double y;

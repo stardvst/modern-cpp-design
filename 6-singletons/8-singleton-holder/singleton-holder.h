@@ -17,7 +17,7 @@ template <typename Singleton, template <class> class CreationPolicy = CreateUsin
 class SingletonHolder
 {
 public:
-	using SingletonType = ThreadingModel<Singleton *>::VolatileType;
+	using SingletonType = typename ThreadingModel<Singleton *>::VolatileType;
 
 	static Singleton &getInstance()
 	{

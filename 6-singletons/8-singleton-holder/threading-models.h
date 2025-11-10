@@ -37,12 +37,12 @@ public:
 
 	static IntType AtomicIncrement(volatile IntType &lval)
 	{
-		return ++lval;
+		return lval += 1;
 	}
 
 	static IntType AtomicDecrement(volatile IntType &lval)
 	{
-		return --lval;
+		return lval -= 1;
 	}
 
 	static void AtomicAssign(volatile IntType &lval, IntType val)

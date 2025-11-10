@@ -4,6 +4,8 @@
 #include "lifetime-policies.h"
 #include "threading-models.h"
 
+#include <cassert>
+
 #ifdef _MSC_VER
 #define C_CALLING_CONVENTION_QUALIFIER __cdecl
 #else

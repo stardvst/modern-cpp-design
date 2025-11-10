@@ -8,15 +8,16 @@ class FixedAllocator;
 // This class is capable of allocating objects of ANY SIZE efficiently.
 // It does this by keeping a pool of fixed-size allocators that are
 // used to allocate objects of a specific size.
-class SmallObjAllocator
+class SmallObjectAllocator
 {
 public:
-	explicit SmallObjAllocator(std::size_t chunkSize, std::size_t maxObjectSize);
-	SmallObjAllocator(const SmallObjAllocator &) = delete;
-	SmallObjAllocator &operator=(const SmallObjAllocator &) = delete;
+	SmallObjectAllocator() = default;
+	explicit SmallObjectAllocator(std::size_t chunkSize, std::size_t maxObjectSize);
+	SmallObjectAllocator(const SmallObjectAllocator &) = delete;
+	SmallObjectAllocator &operator=(const SmallObjectAllocator &) = delete;
 
 	void *Allocate(std::size_t numBytes);
-	void Deallocate(void *p, std::size_t size);
+	void Deallocate(void *p, std::size_t numBytes);
 
 private:
 	using AllocatorPool = std::vector<FixedAllocator>;

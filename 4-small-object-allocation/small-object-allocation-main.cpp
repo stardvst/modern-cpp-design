@@ -1,5 +1,6 @@
 #include "chunk.h"
 #include "fixed-allocator.h"
+#include "small-object.h"
 
 namespace Color
 {
@@ -78,6 +79,20 @@ int main()
 	std::cout << Color::green << "Deallocating one more block:\n" << Color::reset;
 	allocator.Deallocate(a4);
 	printFixedAllocatorState(allocator);
+
+	// #############  SmallObject test  #############
+	std::cout << Color::blue << "\nSmallObject test:\n" << Color::reset;
+	struct SmallDerived : public SmallObject
+	{
+		int x;
+		double y;
+	};
+
+	SmallDerived *obj1 = new SmallDerived();
+	SmallDerived *obj2 = new SmallDerived();
+	std::cout << "Allocated SmallDerived objects at: " << obj1 << " and " << obj2 << "\n";
+	delete obj1;
+	delete obj2;
 
 	return 0;
 }

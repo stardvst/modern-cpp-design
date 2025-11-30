@@ -2,12 +2,19 @@
 
 struct Paragraph;
 struct Image;
+struct UnknownElement;
+struct DocElement;
 
 class DocElementVisitor
 {
 public:
 	virtual void visit(const Paragraph &paragraph) = 0;
 	virtual void visit(const Image &image) = 0;
+//  virtual void visit(const UnknownElement &element) = 0;
+
+	// catch-all visit method
+	virtual void visit(const DocElement &) = 0;
+
 	virtual ~DocElementVisitor() = default;
 };
 
@@ -40,6 +47,14 @@ struct Image : public DocElement
 	}
 };
 
+struct UnknownElement : public DocElement
+{
+	void Accept(DocElementVisitor &visitor) override
+	{
+		visitor.visit(*this);
+	}
+};
+
 class DocStats : public DocElementVisitor
 {
 public:
@@ -53,6 +68,16 @@ public:
 	{
 		m_imageWidth += image.width;
 		m_imageHeight += image.height;
+	}
+
+  // void visit(const UnknownElement &element) override
+  // {
+  //   std::cout << "Visited an unknown document element.\n";
+  // }
+
+	void visit(const DocElement &element) override
+	{
+		std::cout << "Visited a DocElement.\n";
 	}
 
 	void PrintStats()
@@ -96,6 +121,7 @@ int main()
 	Documment document;
 	document.AddElement(std::make_unique<Paragraph>());
 	document.AddElement(std::make_unique<Image>());
+	document.AddElement(std::make_unique<UnknownElement>());
 	document.Accept(stats);
 	stats.PrintStats();
 }

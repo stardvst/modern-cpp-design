@@ -19,9 +19,9 @@ struct Image : public DocElement
 };
 
 class InfoVisitor
-	: public virtual Visitor<DocElement>
-	, public virtual Visitor<Paragraph>
-	, public virtual Visitor<Image>
+	: public Visitor<DocElement>
+	, public Visitor<Paragraph>
+	, public Visitor<Image>
 {
 public:
 	void visit(const DocElement &element) override

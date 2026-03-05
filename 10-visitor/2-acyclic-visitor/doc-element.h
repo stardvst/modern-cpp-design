@@ -6,4 +6,5 @@ class DocElement
 {
 public:
   virtual void Accept(DocElementVisitor &visitor) = 0;
+  virtual ~DocElement() = default;
 };

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "base-visitor.h"
+#include <type_traits>
 
 template <typename R = void>
 class BaseVisitable
@@ -8,7 +9,10 @@ class BaseVisitable
 public:
 	using ReturnType = R;
 	virtual ~BaseVisitable() = default;
-	virtual void Accept(BaseVisitor &visitor) = 0;
+	virtual ReturnType Accept(BaseVisitor &visitor) = 0;
+
+	static_assert(std::is_void_v<ReturnType> || std::is_default_constructible_v<ReturnType>,
+				  "ReturnType must be void or default-constructible");
 
 protected:
 	template <typename T>
@@ -18,12 +22,17 @@ protected:
 		{
 			return specificVisitor->visit(element);
 		}
+		if constexpr (std::is_void_v<ReturnType>)
+		{
+			return;
+		}
 		return ReturnType{};
 	}
 
-#define DEFINE_VISITABLE()                                                                                                                 \
-	virtual ReturnType Accept(BaseVisitor &visitor)                                                                                        \
-	{                                                                                                                                      \
-		return AcceptImpl(*this, visitor);                                                                                                 \
+	// Small inline helper to implement Accept in concrete visitable types
+	template <typename T>
+	static ReturnType AcceptThis(T &element, BaseVisitor &visitor)
+	{
+		return AcceptImpl(element, visitor);
 	}
 };

@@ -5,17 +5,17 @@
 
 struct DocElement : public BaseVisitable<>
 {
-	DEFINE_VISITABLE()
+	ReturnType Accept(BaseVisitor &visitor) override { return BaseVisitable::AcceptThis(*this, visitor); }
 };
 
 struct Paragraph : public DocElement
 {
-	DEFINE_VISITABLE()
+	ReturnType Accept(BaseVisitor &visitor) override { return BaseVisitable::AcceptThis(*this, visitor); }
 };
 
 struct Image : public DocElement
 {
-	DEFINE_VISITABLE()
+	ReturnType Accept(BaseVisitor &visitor) override { return BaseVisitable::AcceptThis(*this, visitor); }
 };
 
 class InfoVisitor

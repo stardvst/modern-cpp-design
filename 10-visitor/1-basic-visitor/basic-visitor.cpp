@@ -1,4 +1,6 @@
 #include <iostream>
+#include <memory>
+#include <vector>
 
 struct Paragraph;
 struct Image;
@@ -95,7 +97,7 @@ private:
 	int m_imageHeight = 0;
 };
 
-class Documment
+class Document
 {
 public:
 	void AddElement(std::unique_ptr<DocElement> element)
@@ -118,7 +120,7 @@ private:
 int main()
 {
 	DocStats stats;
-	Documment document;
+	Document document;
 	document.AddElement(std::make_unique<Paragraph>());
 	document.AddElement(std::make_unique<Image>());
 	document.AddElement(std::make_unique<UnknownElement>());
